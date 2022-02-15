@@ -21,8 +21,6 @@ use Hyperf\Database\Concerns\ManagesTransactions;
 
 class PostgreSqlConnection extends Connection
 {
-    use ManagesTransactions;
-
     /**
      * Get a schema builder instance for the connection.
      */
