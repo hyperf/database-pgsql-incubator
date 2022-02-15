@@ -5,7 +5,7 @@ namespace HyperfTest\Database\PgSQL;
 use Hyperf\Database\Connection;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\PgSQL\Schema\ForeignIdColumnDefinition;
-use Hyperf\Database\PgSQL\Schema\Grammars\PostgresSchemaGrammar as PostgresGrammar;
+use Hyperf\Database\PgSQL\Schema\Grammars\PostgresGrammar as PostgresGrammar;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 

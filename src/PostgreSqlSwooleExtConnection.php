@@ -17,7 +17,7 @@ use Hyperf\Database\Events\StatementPrepared;
 use Hyperf\Database\Exception\QueryException;
 use Hyperf\Database\PgSQL\Query\Grammars\PostgresSqlSwooleExtGrammar as QueryGrammar;
 use Hyperf\Database\PgSQL\Query\Processors\PostgresProcessor;
-use Hyperf\Database\PgSQL\Schema\Grammars\PostgresSchemaGrammar as SchemaGrammar;
+use Hyperf\Database\PgSQL\Schema\Grammars\PostgresGrammar as SchemaGrammar;
 use Hyperf\Database\PgSQL\Schema\PostgresBuilder;
 use Hyperf\Database\Connection;
 

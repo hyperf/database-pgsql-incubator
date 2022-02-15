@@ -16,7 +16,7 @@ use Hyperf\Utils\Fluent;
 use RuntimeException;
 use Hyperf\Database\Schema\Grammars\Grammar;
 
-class PostgresSchemaGrammar extends Grammar
+class PostgresGrammar extends Grammar
 {
     /**
      * If this Grammars supports schema changes wrapped in a transaction.

@@ -3,7 +3,7 @@
 namespace HyperfTest\Database\PgSQL;
 
 use Hyperf\Database\Connection;
-use Hyperf\Database\PgSQL\Schema\Grammars\PostgresSchemaGrammar as PostgresGrammar;
+use Hyperf\Database\PgSQL\Schema\Grammars\PostgresGrammar as PostgresGrammar;
 use Hyperf\Database\PgSQL\Schema\PostgresBuilder;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
