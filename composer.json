@@ -1,5 +1,5 @@
 {
-    "name": "hyperf/database-pgsql-incubator",
+    "name": "zhuangyuanhui/database-pgsql-incubator",
     "type": "library",
     "require": {
         "php": ">=7.3",
