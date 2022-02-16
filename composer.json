@@ -32,5 +32,10 @@
             "email": "zhuangyuanhui@kkguan.com"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "hyperf": {
+            "config": "Hyperf\\Database\\PgSQL\\ConfigProvider"
+        }
+    }
 }
