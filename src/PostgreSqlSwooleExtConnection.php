@@ -78,7 +78,7 @@ class PostgreSqlSwooleExtConnection extends Connection
 
         $res = $this->pdo->prepare($id, $query);
         if ($res === false) {
-            throw new QueryException($query, [], new Exception($this->pdo->error));
+            throw new QueryException($query, [], new \Exception($this->pdo->error));
         }
 
         return $id;
