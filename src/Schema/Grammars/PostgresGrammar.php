@@ -93,7 +93,7 @@ class PostgresGrammar extends Grammar
      */
     public function compileColumnListing()
     {
-        return 'select column_name from information_schema.columns where table_schema = ? and table_name = ?';
+        return 'select column_name as column_name, data_type as data_type from information_schema.columns where table_catalog = ? and table_schema = ? and table_name = ?';
     }
 
     /**

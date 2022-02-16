@@ -178,11 +178,13 @@ class PostgresBuilder extends Builder
     {
         [$schema, $table] = $this->parseSchemaAndTable($table);
 
+        $databaseName = $this->connection->getDatabaseName();
+
         $table = $this->connection->getTablePrefix() . $table;
 
         $results = $this->connection->select(
             $this->grammar->compileColumnListing(),
-            [$schema, $table]
+            [$databaseName, $schema, $table]
         );
 
         return $this->connection->getPostProcessor()->processColumnListing($results);
@@ -217,11 +219,13 @@ class PostgresBuilder extends Builder
      */
     public function getColumnTypeListing($table)
     {
+        [$schema, $table] = $this->parseSchemaAndTable($table);
+
         $table = $this->connection->getTablePrefix() . $table;
 
         $results = $this->connection->select(
             $this->grammar->compileColumnListing(),
-            [$this->connection->getDatabaseName(), $table]
+            [$this->connection->getDatabaseName(), $schema, $table]
         );
 
         /** @var PostgresProcessor $processor */

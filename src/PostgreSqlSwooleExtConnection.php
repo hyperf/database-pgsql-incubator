@@ -13,11 +13,10 @@ namespace Hyperf\Database\PgSQL;
 
 use Hyperf\Database\PgSQL\Concerns\PostgreSqlSwooleExtManagesTransactions;
 use Hyperf\Database\PgSQL\DBAL\PostgresDriver;
-use Hyperf\Database\Events\StatementPrepared;
 use Hyperf\Database\Exception\QueryException;
 use Hyperf\Database\PgSQL\Query\Grammars\PostgresSqlSwooleExtGrammar as QueryGrammar;
 use Hyperf\Database\PgSQL\Query\Processors\PostgresProcessor;
-use Hyperf\Database\PgSQL\Schema\Grammars\PostgresGrammar as SchemaGrammar;
+use Hyperf\Database\PgSQL\Schema\Grammars\PostgresSqlSwooleExtGrammar as SchemaGrammar;
 use Hyperf\Database\PgSQL\Schema\PostgresBuilder;
 use Hyperf\Database\Connection;
 
@@ -100,9 +99,7 @@ class PostgreSqlSwooleExtConnection extends Connection
 
             $this->recordsHaveBeenModified();
 
-            $this->pdo->execute($id, $this->prepareBindings($bindings));
-
-            return $this->pdo;
+            return (bool)$this->pdo->execute($id, $this->prepareBindings($bindings));
         });
     }
 
@@ -148,7 +145,7 @@ class PostgreSqlSwooleExtConnection extends Connection
             $result = $this->pdo->execute($id, $this->prepareBindings($bindings));
 
             if ($result === false) {
-                throw new QueryException($query, [], new Exception($this->pdo->error));
+                throw new QueryException($query, [], new \Exception($this->pdo->error));
             }
 
             return $this->pdo->fetchAll($result) ?: [];
@@ -192,7 +189,7 @@ class PostgreSqlSwooleExtConnection extends Connection
 
         $result = $this->pdo->execute($statement, $bindings);
         if ($result === false) {
-            throw new QueryException($query, [], new Exception($this->pdo->error));
+            throw new QueryException($query, [], new \Exception($this->pdo->error));
         }
 
         return $this->pdo->fetchAll($result) ?: [];
