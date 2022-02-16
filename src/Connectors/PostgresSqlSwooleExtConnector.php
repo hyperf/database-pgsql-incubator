@@ -60,14 +60,6 @@ class PostgresSqlSwooleExtConnector implements ConnectorInterface
     {
         $connection = new PostgreSQL();
 
-        var_dump(sprintf(
-            'host=%s port=%s dbname=%s user=%s password=%s',
-            $config['host'],
-            $config['port'],
-            $config['database'],
-            $config['username'],
-            $config['password']
-        ));
         $result = $connection->connect(sprintf(
             'host=%s port=%s dbname=%s user=%s password=%s',
             $config['host'],

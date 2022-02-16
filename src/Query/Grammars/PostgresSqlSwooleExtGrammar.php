@@ -111,9 +111,6 @@ class PostgresSqlSwooleExtGrammar extends QueryPostgresGrammar
             return $this->wrapJsonSelector($value);
         }
 
-        var_dump('this is value=======');
-        var_dump($value);
-
         return $this->wrapSegments(explode('.', $value));
     }
 }
