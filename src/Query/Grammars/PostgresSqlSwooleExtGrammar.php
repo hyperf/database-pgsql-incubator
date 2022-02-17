@@ -7,11 +7,27 @@ use Hyperf\Database\PgSQL\Query\Grammars\PostgresGrammar as QueryPostgresGrammar
 
 class PostgresSqlSwooleExtGrammar extends QueryPostgresGrammar
 {
+    public $prepareNum = 1;
+
     protected function whereBasic(Builder $query, $where)
     {
         $value = $this->parameter($where['value'], $query);
 
         return $this->wrap($where['column']) . ' ' . $where['operator'] . ' ' . $value;
+    }
+
+    /**
+     * Compile a "where in" clause.
+     *
+     * @param array $where
+     * @return string
+     */
+    protected function whereIn(Builder $query, $where)
+    {
+        if (! empty($where['values'])) {
+            return $this->wrap($where['column']) . ' in (' . $this->parameterize($where['values'], $query) . ')';
+        }
+        return '0 = 1';
     }
 
     public function parameterize(array $values, ?Builder $query = null)
@@ -23,7 +39,7 @@ class PostgresSqlSwooleExtGrammar extends QueryPostgresGrammar
 
     public function parameter($value, ?Builder $query = null)
     {
-        return $this->isExpression($value) ? $this->getValue($value) : '$'. $query->prepareNum++;
+        return $this->isExpression($value) ? $this->getValue($value) : '$'. $this->prepareNum++;
     }
 
     public function compileInsert(Builder $query, array $values)

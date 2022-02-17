@@ -2,23 +2,19 @@
 
 declare(strict_types=1);
 /**
- * This file is part of Hyperf.
- *
- * @link     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ * 本文件属于KK馆版权所有，泄漏必究。
+ * This file belong to KKGUAN, all rights reserved.
  */
 namespace Hyperf\Database\PgSQL;
 
+use Hyperf\Database\Connection;
+use Hyperf\Database\Exception\QueryException;
 use Hyperf\Database\PgSQL\Concerns\PostgreSqlSwooleExtManagesTransactions;
 use Hyperf\Database\PgSQL\DBAL\PostgresDriver;
-use Hyperf\Database\Exception\QueryException;
 use Hyperf\Database\PgSQL\Query\Grammars\PostgresSqlSwooleExtGrammar as QueryGrammar;
 use Hyperf\Database\PgSQL\Query\Processors\PostgresProcessor;
 use Hyperf\Database\PgSQL\Schema\Grammars\PostgresSqlSwooleExtGrammar as SchemaGrammar;
 use Hyperf\Database\PgSQL\Schema\PostgresBuilder;
-use Hyperf\Database\Connection;
 
 class PostgreSqlSwooleExtConnection extends Connection
 {
@@ -37,53 +33,6 @@ class PostgreSqlSwooleExtConnection extends Connection
     }
 
     /**
-     * Get the default query grammar instance.
-     * @return \Hyperf\Database\Grammar
-     */
-    protected function getDefaultQueryGrammar()
-    {
-        return $this->withTablePrefix(new QueryGrammar());
-    }
-
-    /**
-     * Get the default schema grammar instance.
-     */
-    protected function getDefaultSchemaGrammar()
-    {
-        return $this->withTablePrefix(new SchemaGrammar());
-    }
-
-    /**
-     * Get the default post processor instance.
-     *
-     * @return \Hyperf\Database\Query\Processors\PostgresProcessor
-     */
-    protected function getDefaultPostProcessor()
-    {
-        return new PostgresProcessor();
-    }
-
-    /**
-     * Get the Doctrine DBAL driver.
-     */
-    protected function getDoctrineDriver(): PostgresDriver
-    {
-        return new PostgresDriver();
-    }
-
-    protected function prepare(string $query): string
-    {
-        $id = uniqid();
-
-        $res = $this->pdo->prepare($id, $query);
-        if ($res === false) {
-            throw new QueryException($query, [], new \Exception($this->pdo->error));
-        }
-
-        return $id;
-    }
-
-    /**
      * Execute an SQL statement and return the boolean result.
      */
     public function statement(string $query, array $bindings = []): bool
@@ -99,7 +48,7 @@ class PostgreSqlSwooleExtConnection extends Connection
 
             $this->recordsHaveBeenModified();
 
-            return (bool)$this->pdo->execute($id, $this->prepareBindings($bindings));
+            return (bool) $this->pdo->execute($id, $this->prepareBindings($bindings));
         });
     }
 
@@ -195,4 +144,49 @@ class PostgreSqlSwooleExtConnection extends Connection
         return $this->pdo->fetchAll($result) ?: [];
     }
 
+    /**
+     * Get the default query grammar instance.
+     * @return \Hyperf\Database\Grammar
+     */
+    protected function getDefaultQueryGrammar()
+    {
+        return $this->withTablePrefix(new QueryGrammar());
+    }
+
+    /**
+     * Get the default schema grammar instance.
+     */
+    protected function getDefaultSchemaGrammar()
+    {
+        return $this->withTablePrefix(new SchemaGrammar());
+    }
+
+    /**
+     * Get the default post processor instance.
+     *
+     * @return \Hyperf\Database\Query\Processors\PostgresProcessor
+     */
+    protected function getDefaultPostProcessor()
+    {
+        return new PostgresProcessor();
+    }
+
+    /**
+     * Get the Doctrine DBAL driver.
+     */
+    protected function getDoctrineDriver(): PostgresDriver
+    {
+        return new PostgresDriver();
+    }
+
+    protected function prepare(string $query): string
+    {
+        $id = uniqid();
+        $res = $this->pdo->prepare($id, $query);
+        if ($res === false) {
+            throw new QueryException($query, [], new \Exception($this->pdo->error));
+        }
+
+        return $id;
+    }
 }
