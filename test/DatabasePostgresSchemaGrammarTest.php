@@ -359,27 +359,6 @@ class DatabasePostgresSchemaGrammarTest extends TestCase
         $this->assertSame('alter table "users" add column "foo" bigserial primary key not null', $statements[0]);
     }
 
-    public function testAddingForeignID()
-    {
-        $blueprint = new Blueprint('users');
-        $foreignId = $blueprint->foreignId('foo');
-        $blueprint->foreignId('company_id')->constrained();
-        $blueprint->foreignId('laravel_idea_id')->constrained();
-        $blueprint->foreignId('team_id')->references('id')->on('teams');
-        $blueprint->foreignId('team_column_id')->constrained('teams');
-
-        $statements = $blueprint->toSql($this->getConnection(), $this->getGrammar());
-
-        $this->assertInstanceOf(ForeignIdColumnDefinition::class, $foreignId);
-        $this->assertSame([
-            'alter table "users" add column "foo" bigint not null, add column "company_id" bigint not null, add column "laravel_idea_id" bigint not null, add column "team_id" bigint not null, add column "team_column_id" bigint not null',
-            'alter table "users" add constraint "users_company_id_foreign" foreign key ("company_id") references "companies" ("id")',
-            'alter table "users" add constraint "users_laravel_idea_id_foreign" foreign key ("laravel_idea_id") references "laravel_ideas" ("id")',
-            'alter table "users" add constraint "users_team_id_foreign" foreign key ("team_id") references "teams" ("id")',
-            'alter table "users" add constraint "users_team_column_id_foreign" foreign key ("team_column_id") references "teams" ("id")',
-        ], $statements);
-    }
-
     public function testAddingBigIncrementingID()
     {
         $blueprint = new Blueprint('users');
