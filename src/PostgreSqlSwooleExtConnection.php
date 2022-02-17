@@ -181,6 +181,11 @@ class PostgreSqlSwooleExtConnection extends Connection
 
     protected function prepare(string $query): string
     {
+        $num = 1;
+        while (strpos($query, '#')) {
+            $query = $this->str_replace_once('#', '$' . $num++, $query);
+        }
+
         $id = uniqid();
         $res = $this->pdo->prepare($id, $query);
         if ($res === false) {
@@ -188,5 +193,18 @@ class PostgreSqlSwooleExtConnection extends Connection
         }
 
         return $id;
+    }
+
+    public function str_replace_once($needle, $replace, $haystack)
+    {
+        // Looks for the first occurence of $needle in $haystack
+        // and replaces it with $replace.
+        $pos = strpos($haystack, $needle);
+        if ($pos === false) {
+            // Nothing found
+            return $haystack;
+        }
+
+        return substr_replace($haystack, $replace, $pos, strlen($needle));
     }
 }

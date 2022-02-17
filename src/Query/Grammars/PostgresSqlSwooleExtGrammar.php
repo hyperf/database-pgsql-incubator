@@ -7,62 +7,9 @@ use Hyperf\Database\PgSQL\Query\Grammars\PostgresGrammar as QueryPostgresGrammar
 
 class PostgresSqlSwooleExtGrammar extends QueryPostgresGrammar
 {
-    public $prepareNum = 1;
-
-    protected function whereBasic(Builder $query, $where)
+    public function parameter($value)
     {
-        $value = $this->parameter($where['value'], $query);
-
-        return $this->wrap($where['column']) . ' ' . $where['operator'] . ' ' . $value;
-    }
-
-    /**
-     * Compile a "where in" clause.
-     *
-     * @param array $where
-     * @return string
-     */
-    protected function whereIn(Builder $query, $where)
-    {
-        if (! empty($where['values'])) {
-            return $this->wrap($where['column']) . ' in (' . $this->parameterize($where['values'], $query) . ')';
-        }
-        return '0 = 1';
-    }
-
-    public function parameterize(array $values, ?Builder $query = null)
-    {
-        return implode(', ', array_map(function ($item) use ($query) {
-            return $this->parameter($item, $query);
-        }, $values));
-    }
-
-    public function parameter($value, ?Builder $query = null)
-    {
-        return $this->isExpression($value) ? $this->getValue($value) : '$'. $this->prepareNum++;
-    }
-
-    public function compileInsert(Builder $query, array $values)
-    {
-        // Essentially we will force every insert to be treated as a batch insert which
-        // simply makes creating the SQL easier for us since we can utilize the same
-        // basic routine regardless of an amount of records given to us to insert.
-        $table = $this->wrapTable($query->from);
-
-        if (! is_array(reset($values))) {
-            $values = [$values];
-        }
-
-        $columns = $this->columnize(array_keys(reset($values)));
-
-        // We need to build a list of parameter place-holders of values that are bound
-        // to the query. Each insert should have the exact same amount of parameter
-        // bindings so we will loop through the record and parameterize them all.
-        $parameters = collect($values)->map(function ($record) use ($query) {
-            return '(' . $this->parameterize($record, $query) . ')';
-        })->implode(', ');
-
-        return "insert into {$table} ({$columns}) values {$parameters}";
+        return $this->isExpression($value) ? $this->getValue($value) : '#';
     }
 
     /**
