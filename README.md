@@ -13,8 +13,7 @@ composer require hyperf/database-pgsql-incubator
 修改 `autoload/database.php` 配置
 
 ```php
-
-use Hyperf\DB\PgSQL\PgSQLPool;
+<?php
 
 return [
         'pgsql' => [
@@ -74,6 +73,7 @@ return [
         ],
     ],
 ];
+
 ```
 
 ## 使用
