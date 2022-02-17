@@ -11,24 +11,28 @@ declare(strict_types=1);
  */
 namespace Hyperf\Database\PgSQL\Listener;
 
-use Hyperf\Database\ConnectionManager;
-use Hyperf\Database\PgSQL\Connectors\PostgresConnector;
-use Hyperf\Database\PgSQL\Connectors\PostgresSqlSwooleExtConnector;
+use Hyperf\Database\Connection;
 use Hyperf\Database\PgSQL\PostgreSqlConnection;
 use Hyperf\Database\PgSQL\PostgreSqlSwooleExtConnection;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Framework\Event\BootApplication;
+use Psr\Container\ContainerInterface;
 
 class RegisterConnectionListener implements ListenerInterface
 {
     /**
-     * @var ConnectionManager
+     * The IoC container instance.
+     *
+     * @var ContainerInterface
      */
-    protected $connectionManager;
+    protected $container;
 
-    public function __construct(ConnectionManager $connectionManager)
+    /**
+     * Create a new connection factory instance.
+     */
+    public function __construct(ContainerInterface $container)
     {
-        $this->connectionManager = $connectionManager;
+        $this->container = $container;
     }
 
     public function listen(): array
@@ -44,14 +48,11 @@ class RegisterConnectionListener implements ListenerInterface
      */
     public function process(object $event)
     {
-        $this->connectionManager->register('pgsql', [
-            'connector' => PostgresConnector::class,
-            'connection' => PostgreSqlConnection::class,
-        ]);
-
-        $this->connectionManager->register('pgsql-swoole', [
-            'connector' => PostgresSqlSwooleExtConnector::class,
-            'connection' => PostgreSqlSwooleExtConnection::class,
-        ]);
+        Connection::resolverFor('pgsql', function ($connection, $database, $prefix, $config) {
+            return new PostgreSqlConnection($connection, $database, $prefix, $config);
+        });
+        Connection::resolverFor('pgsql-swoole', function ($connection, $database, $prefix, $config) {
+            return new PostgreSqlSwooleExtConnection($connection, $database, $prefix, $config);
+        });
     }
 }
