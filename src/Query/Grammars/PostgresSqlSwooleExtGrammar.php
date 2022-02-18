@@ -7,11 +7,6 @@ use Hyperf\Database\PgSQL\Query\Grammars\PostgresGrammar as QueryPostgresGrammar
 
 class PostgresSqlSwooleExtGrammar extends QueryPostgresGrammar
 {
-    public function parameter($value)
-    {
-        return $this->isExpression($value) ? $this->getValue($value) : '#';
-    }
-
     /**
      * Compile an update statement into SQL.
      *

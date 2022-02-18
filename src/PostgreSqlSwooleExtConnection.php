@@ -182,8 +182,8 @@ class PostgreSqlSwooleExtConnection extends Connection
     protected function prepare(string $query): string
     {
         $num = 1;
-        while (strpos($query, '#')) {
-            $query = $this->str_replace_once('#', '$' . $num++, $query);
+        while (strpos($query, '?')) {
+            $query = $this->str_replace_once('?', '$' . $num++, $query);
         }
 
         $id = uniqid();
