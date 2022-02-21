@@ -2,8 +2,12 @@
 
 declare(strict_types=1);
 /**
- * 本文件属于KK馆版权所有，泄漏必究。
- * This file belong to KKGUAN, all rights reserved.
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 namespace Hyperf\Database\PgSQL;
 
@@ -144,6 +148,19 @@ class PostgreSqlSwooleExtConnection extends Connection
         return $this->pdo->fetchAll($result) ?: [];
     }
 
+    public function str_replace_once($needle, $replace, $haystack)
+    {
+        // Looks for the first occurence of $needle in $haystack
+        // and replaces it with $replace.
+        $pos = strpos($haystack, $needle);
+        if ($pos === false) {
+            // Nothing found
+            return $haystack;
+        }
+
+        return substr_replace($haystack, $replace, $pos, strlen($needle));
+    }
+
     /**
      * Get the default query grammar instance.
      * @return \Hyperf\Database\Grammar
@@ -193,18 +210,5 @@ class PostgreSqlSwooleExtConnection extends Connection
         }
 
         return $id;
-    }
-
-    public function str_replace_once($needle, $replace, $haystack)
-    {
-        // Looks for the first occurence of $needle in $haystack
-        // and replaces it with $replace.
-        $pos = strpos($haystack, $needle);
-        if ($pos === false) {
-            // Nothing found
-            return $haystack;
-        }
-
-        return substr_replace($haystack, $replace, $pos, strlen($needle));
     }
 }

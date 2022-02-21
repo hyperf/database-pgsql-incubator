@@ -1,14 +1,27 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace HyperfTest\Database\PgSQL;
 
 use Hyperf\Database\Connection;
-use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\PgSQL\Schema\ForeignIdColumnDefinition;
-use Hyperf\Database\PgSQL\Schema\Grammars\PostgresGrammar as PostgresGrammar;
+use Hyperf\Database\PgSQL\Schema\Grammars\PostgresGrammar;
+use Hyperf\Database\Schema\Blueprint;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class DatabasePostgresSchemaGrammarTest extends TestCase
 {
     protected function tearDown(): void
@@ -1035,14 +1048,9 @@ class DatabasePostgresSchemaGrammarTest extends TestCase
         $this->assertSame('drop type "alpha","beta","gamma" cascade', $statement);
     }
 
-    protected function getConnection()
-    {
-        return m::mock(Connection::class);
-    }
-
     public function getGrammar()
     {
-        return new PostgresGrammar;
+        return new PostgresGrammar();
     }
 
     public function testGrammarsAreMacroable()
@@ -1055,5 +1063,10 @@ class DatabasePostgresSchemaGrammarTest extends TestCase
         $c = $this->getGrammar()::compileReplace();
 
         $this->assertTrue($c);
+    }
+
+    protected function getConnection()
+    {
+        return m::mock(Connection::class);
     }
 }

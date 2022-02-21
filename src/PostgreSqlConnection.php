@@ -11,13 +11,12 @@ declare(strict_types=1);
  */
 namespace Hyperf\Database\PgSQL;
 
+use Hyperf\Database\Connection;
 use Hyperf\Database\PgSQL\DBAL\PostgresDriver;
 use Hyperf\Database\PgSQL\Query\Grammars\PostgresGrammar as QueryGrammar;
 use Hyperf\Database\PgSQL\Query\Processors\PostgresProcessor;
 use Hyperf\Database\PgSQL\Schema\Grammars\PostgresGrammar as SchemaGrammar;
 use Hyperf\Database\PgSQL\Schema\PostgresBuilder;
-use Hyperf\Database\Connection;
-use Hyperf\Database\Concerns\ManagesTransactions;
 
 class PostgreSqlConnection extends Connection
 {

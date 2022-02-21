@@ -1,9 +1,18 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace Hyperf\Database\PgSQL\Query\Grammars;
 
-use Hyperf\Database\Query\Builder;
 use Hyperf\Database\PgSQL\Query\Grammars\PostgresGrammar as QueryPostgresGrammar;
+use Hyperf\Database\Query\Builder;
 
 class PostgresSqlSwooleExtGrammar extends QueryPostgresGrammar
 {

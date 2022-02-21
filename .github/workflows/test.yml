@@ -73,5 +73,5 @@ jobs:
         run: composer update -o --no-scripts
       - name: Run Test Cases
         run: |
-          composer analyse
+          composer analyse src
           composer test

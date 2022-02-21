@@ -11,8 +11,8 @@ declare(strict_types=1);
  */
 namespace Hyperf\Database\PgSQL\Schema;
 
-use Hyperf\Utils\Str;
 use Hyperf\Database\Schema\ColumnDefinition;
+use Hyperf\Utils\Str;
 
 class ForeignIdColumnDefinition extends ColumnDefinition
 {

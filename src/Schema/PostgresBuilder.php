@@ -191,27 +191,6 @@ class PostgresBuilder extends Builder
     }
 
     /**
-     * Parse the table name and extract the schema and table.
-     *
-     * @param string $table
-     * @return array
-     */
-    protected function parseSchemaAndTable($table)
-    {
-        $table = explode('.', $table);
-
-        if (is_array($schema = $this->connection->getConfig('schema'))) {
-            if (in_array($table[0], $schema)) {
-                return [array_shift($table), implode('.', $table)];
-            }
-
-            $schema = head($schema);
-        }
-
-        return [$schema ?: 'public', implode('.', $table)];
-    }
-
-    /**
      * Get the column type listing for a given table.
      *
      * @param string $table
@@ -231,5 +210,26 @@ class PostgresBuilder extends Builder
         /** @var PostgresProcessor $processor */
         $processor = $this->connection->getPostProcessor();
         return $processor->processListing($results);
+    }
+
+    /**
+     * Parse the table name and extract the schema and table.
+     *
+     * @param string $table
+     * @return array
+     */
+    protected function parseSchemaAndTable($table)
+    {
+        $table = explode('.', $table);
+
+        if (is_array($schema = $this->connection->getConfig('schema'))) {
+            if (in_array($table[0], $schema)) {
+                return [array_shift($table), implode('.', $table)];
+            }
+
+            $schema = head($schema);
+        }
+
+        return [$schema ?: 'public', implode('.', $table)];
     }
 }

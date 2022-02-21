@@ -1,13 +1,26 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace HyperfTest\Database\PgSQL;
 
 use Hyperf\Database\Connection;
-use Hyperf\Database\PgSQL\Schema\Grammars\PostgresGrammar as PostgresGrammar;
+use Hyperf\Database\PgSQL\Schema\Grammars\PostgresGrammar;
 use Hyperf\Database\PgSQL\Schema\PostgresBuilder;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class DatabasePostgresBuilderTest extends TestCase
 {
     protected function tearDown(): void
@@ -17,7 +30,7 @@ class DatabasePostgresBuilderTest extends TestCase
 
     public function testCreateDatabase()
     {
-        $grammar = new PostgresGrammar;
+        $grammar = new PostgresGrammar();
 
         $connection = m::mock(Connection::class);
         $connection->shouldReceive('getConfig')->once()->with('charset')->andReturn('utf8');
@@ -32,7 +45,7 @@ class DatabasePostgresBuilderTest extends TestCase
 
     public function testDropDatabaseIfExists()
     {
-        $grammar = new PostgresGrammar;
+        $grammar = new PostgresGrammar();
 
         $connection = m::mock(Connection::class);
         $connection->shouldReceive('getSchemaGrammar')->once()->andReturn($grammar);

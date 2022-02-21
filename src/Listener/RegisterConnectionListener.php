@@ -43,8 +43,7 @@ class RegisterConnectionListener implements ListenerInterface
     }
 
     /**
-     * register pgsql and pgsql-swoole need Connector and Connection
-     * @param object $event
+     * register pgsql and pgsql-swoole need Connector and Connection.
      */
     public function process(object $event)
     {

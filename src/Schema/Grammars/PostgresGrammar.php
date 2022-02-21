@@ -12,9 +12,9 @@ declare(strict_types=1);
 namespace Hyperf\Database\PgSQL\Schema\Grammars;
 
 use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Database\Schema\Grammars\Grammar;
 use Hyperf\Utils\Fluent;
 use RuntimeException;
-use Hyperf\Database\Schema\Grammars\Grammar;
 
 class PostgresGrammar extends Grammar
 {

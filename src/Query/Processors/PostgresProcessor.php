@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://hyperf.wiki
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace Hyperf\Database\PgSQL\Query\Processors;
 
 use Hyperf\Database\Query\Builder;
@@ -10,10 +19,9 @@ class PostgresProcessor extends Processor
     /**
      * Process an "insert get ID" query.
      *
-     * @param  \Hyperf\Database\Query\Builder  $query
-     * @param  string  $sql
-     * @param  array  $values
-     * @param  string|null  $sequence
+     * @param string $sql
+     * @param array $values
+     * @param null|string $sequence
      * @return int
      */
     public function processInsertGetId(Builder $query, $sql, $values, $sequence = null)
@@ -34,8 +42,7 @@ class PostgresProcessor extends Processor
     /**
      * Process the results of a column listing query.
      *
-     * @param  array  $results
-     * @return array
+     * @param array $results
      */
     public function processColumnListing($results): array
     {

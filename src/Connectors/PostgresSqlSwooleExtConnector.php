@@ -30,7 +30,6 @@ class PostgresSqlSwooleExtConnector implements ConnectorInterface
     ];
 
     /**
-     * @param array $config
      * @return PostgreSQL
      */
     public function connect(array $config)
@@ -74,6 +73,24 @@ class PostgresSqlSwooleExtConnector implements ConnectorInterface
         }
 
         return $connection;
+    }
+
+    /**
+     * Get the default PDO connection options.
+     *
+     * @return array
+     */
+    public function getDefaultOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set the default PDO connection options.
+     */
+    public function setDefaultOptions(array $options)
+    {
+        $this->options = $options;
     }
 
     /**
@@ -167,23 +184,5 @@ class PostgresSqlSwooleExtConnector implements ConnectorInterface
         $id = uniqid();
         $connection->prepare($id, "set synchronous_commit to '{$config['synchronous_commit']}'");
         $connection->execute($id, []);
-    }
-
-    /**
-     * Get the default PDO connection options.
-     *
-     * @return array
-     */
-    public function getDefaultOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * Set the default PDO connection options.
-     */
-    public function setDefaultOptions(array $options)
-    {
-        $this->options = $options;
     }
 }

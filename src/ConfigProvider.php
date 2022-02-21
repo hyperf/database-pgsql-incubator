@@ -25,7 +25,7 @@ class ConfigProvider
                 'db.connector.pgsql-swoole' => PostgresSqlSwooleExtConnector::class,
             ],
             'listeners' => [
-                RegisterConnectionListener::class
+                RegisterConnectionListener::class,
             ],
             'annotations' => [
                 'scan' => [

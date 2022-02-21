@@ -11,9 +11,9 @@ declare(strict_types=1);
  */
 namespace Hyperf\Database\PgSQL\Connectors;
 
-use PDO;
-use Hyperf\Database\Connectors\ConnectorInterface;
 use Hyperf\Database\Connectors\Connector;
+use Hyperf\Database\Connectors\ConnectorInterface;
+use PDO;
 
 class PostgresConnector extends Connector implements ConnectorInterface
 {

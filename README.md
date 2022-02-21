@@ -16,7 +16,7 @@ composer require hyperf/database-pgsql-incubator
 <?php
 
 return [
-        'pgsql' => [
+    'pgsql' => [
         'driver' => 'pgsql',
         'host' => '127.0.0.1',
         'database' => 'hyperf',
