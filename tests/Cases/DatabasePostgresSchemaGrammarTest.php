@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace HyperfTest\Database\PgSQL\Cases;
 
 use Hyperf\Database\Connection;
-use Hyperf\Database\PgSQL\Schema\ForeignIdColumnDefinition;
 use Hyperf\Database\PgSQL\Schema\Grammars\PostgresGrammar;
 use Hyperf\Database\Schema\Blueprint;
 use Mockery as m;
