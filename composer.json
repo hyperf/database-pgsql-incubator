@@ -54,7 +54,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.2-dev",
+            "dev-main": "2.2-dev"
         },
         "hyperf": {
             "config": "Hyperf\\Database\\PgSQL\\ConfigProvider"
