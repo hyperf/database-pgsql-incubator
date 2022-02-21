@@ -60,7 +60,7 @@
         }
     },
     "scripts": {
-        "test": "./bin/co-phpunit --colors=always",
+        "test": "./vendor/bin/co-phpunit --colors=always",
         "cs-fix": "php-cs-fixer fix $1",
         "analyse": "phpstan analyse --memory-limit 4096M -l 0 -c phpstan.neon"
     }
