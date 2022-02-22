@@ -15,5 +15,4 @@ use Hyperf\Database\PgSQL\Query\Grammars\PostgresGrammar as QueryPostgresGrammar
 
 class PostgresSqlSwooleExtGrammar extends QueryPostgresGrammar
 {
-
 }
