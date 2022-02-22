@@ -2,7 +2,7 @@
 
 ## 安装
 
-> hyperf/database 组件版本必须大于等于 v2.2
+> hyperf/database 组件版本必须大于等于 v2.2.26
 
 ```
 composer require hyperf/database-pgsql-incubator
