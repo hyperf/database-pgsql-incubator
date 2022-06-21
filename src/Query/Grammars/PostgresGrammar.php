@@ -96,30 +96,6 @@ class PostgresGrammar extends Grammar
     }
 
     /**
-     * Compile an update from statement into SQL.
-     *
-     * @param Builder $query
-     * @return string
-     */
-    protected function compileUpdateFrom(Builder $query)
-    {
-        if (! isset($query->joins)) {
-            return '';
-        }
-
-        // When using Postgres, updates with joins list the joined tables in the from
-        // clause, which is different than other systems like MySQL. Here, we will
-        // compile out the tables that are joined and add them to a from clause.
-        $froms = collect($query->joins)->map(function ($join) {
-            return $this->wrapTable($join->table);
-        })->all();
-
-        if (count($froms) > 0) {
-            return ' from '.implode(', ', $froms);
-        }
-    }
-
-    /**
      * Prepare the bindings for an update statement.
      *
      * @return array
@@ -181,6 +157,29 @@ class PostgresGrammar extends Grammar
     public function compileTruncate(Builder $query)
     {
         return ['truncate ' . $this->wrapTable($query->from) . ' restart identity cascade' => []];
+    }
+
+    /**
+     * Compile an update from statement into SQL.
+     *
+     * @return string
+     */
+    protected function compileUpdateFrom(Builder $query)
+    {
+        if (! isset($query->joins)) {
+            return '';
+        }
+
+        // When using Postgres, updates with joins list the joined tables in the from
+        // clause, which is different than other systems like MySQL. Here, we will
+        // compile out the tables that are joined and add them to a from clause.
+        $froms = collect($query->joins)->map(function ($join) {
+            return $this->wrapTable($join->table);
+        })->all();
+
+        if (count($froms) > 0) {
+            return ' from ' . implode(', ', $froms);
+        }
     }
 
     /**
