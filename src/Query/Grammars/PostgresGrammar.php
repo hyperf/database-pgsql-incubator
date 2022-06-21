@@ -61,11 +61,18 @@ class PostgresGrammar extends Grammar
      */
     public function compileUpdate(Builder $query, $values)
     {
-        if (isset($query->joins) || isset($query->limit)) {
-            return $this->compileUpdateWithJoinsOrLimit($query, $values);
-        }
+        $table = $this->wrapTable($query->from);
 
-        return parent::compileUpdate($query, $values);
+        // Each one of the columns in the update statements needs to be wrapped in the
+        // keyword identifiers, also a place-holder needs to be created for each of
+        // the values in the list of bindings so we can make the sets statements.
+        $columns = $this->compileUpdateColumns($query, $values);
+
+        $from = $this->compileUpdateFrom($query);
+
+        $where = $this->compileUpdateWheres($query);
+
+        return trim("update {$table} set {$columns}{$from} {$where}");
     }
 
     /**
@@ -91,36 +98,25 @@ class PostgresGrammar extends Grammar
     /**
      * Compile an update from statement into SQL.
      *
-     * @param array $values
+     * @param Builder $query
      * @return string
      */
-    public function compileUpdateFrom(Builder $query, $values)
+    protected function compileUpdateFrom(Builder $query)
     {
-        $table = $this->wrapTable($query->from);
-
-        // Each one of the columns in the update statements needs to be wrapped in the
-        // keyword identifiers, also a place-holder needs to be created for each of
-        // the values in the list of bindings so we can make the sets statements.
-        $columns = $this->compileUpdateColumns($query, $values);
-
-        $from = '';
-
-        if (isset($query->joins)) {
-            // When using Postgres, updates with joins list the joined tables in the from
-            // clause, which is different than other systems like MySQL. Here, we will
-            // compile out the tables that are joined and add them to a from clause.
-            $froms = collect($query->joins)->map(function ($join) {
-                return $this->wrapTable($join->table);
-            })->all();
-
-            if (count($froms) > 0) {
-                $from = ' from ' . implode(', ', $froms);
-            }
+        if (! isset($query->joins)) {
+            return '';
         }
 
-        $where = $this->compileUpdateWheres($query);
+        // When using Postgres, updates with joins list the joined tables in the from
+        // clause, which is different than other systems like MySQL. Here, we will
+        // compile out the tables that are joined and add them to a from clause.
+        $froms = collect($query->joins)->map(function ($join) {
+            return $this->wrapTable($join->table);
+        })->all();
 
-        return trim("update {$table} set {$columns}{$from} {$where}");
+        if (count($froms) > 0) {
+            return ' from '.implode(', ', $froms);
+        }
     }
 
     /**
