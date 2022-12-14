@@ -45,7 +45,7 @@ class RegisterConnectionListener implements ListenerInterface
     /**
      * register pgsql and pgsql-swoole need Connector and Connection.
      */
-    public function process(object $event)
+    public function process(object $event):void
     {
         Connection::resolverFor('pgsql', function ($connection, $database, $prefix, $config) {
             return new PostgreSqlConnection($connection, $database, $prefix, $config);
